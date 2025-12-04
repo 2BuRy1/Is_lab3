@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="isLab2">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="PersonChecker">
+        <intProp name="ThreadGroup.num_threads">3</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="notFirstCheck">
+          <stringProp name="IfController.condition">${__jexl3(${REQ_INDEX} &gt; 1,)}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+        </IfController>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="51508">400</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PersonChecker">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">8080</stringProp>
+            <stringProp name="HTTPSampler.path">add_person</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;passportID&quot;: &quot;ABC123456&quot;,&#xd;
+  &quot;weight&quot;: 70.5,&#xd;
+  &quot;hairColor&quot;: &quot;RED&quot;,&#xd;
+  &quot;eyeColor&quot;: &quot;BROWN&quot;,&#xd;
+  &quot;nationality&quot;: &quot;JAPAN&quot;,&#xd;
+  &quot;location&quot;: {&#xd;
+    &quot;x&quot;: 10.5,&#xd;
+    &quot;y&quot;: 20.7,&#xd;
+    &quot;z&quot;: 5&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="firstCheck">
+          <stringProp name="IfController.condition">${__jexl3(${REQ_INDEX} == 1,)}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+        </IfController>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PersonChecker">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">8080</stringProp>
+            <stringProp name="HTTPSampler.path">add_person</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;passportID&quot;: &quot;ABC123456&quot;,&#xd;
+  &quot;weight&quot;: 70.5,&#xd;
+  &quot;hairColor&quot;: &quot;RED&quot;,&#xd;
+  &quot;eyeColor&quot;: &quot;BROWN&quot;,&#xd;
+  &quot;nationality&quot;: &quot;JAPAN&quot;,&#xd;
+  &quot;location&quot;: {&#xd;
+    &quot;x&quot;: 10.5,&#xd;
+    &quot;y&quot;: 20.7,&#xd;
+    &quot;z&quot;: 5&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+          <stringProp name="CounterConfig.start">1</stringProp>
+          <stringProp name="CounterConfig.end"></stringProp>
+          <stringProp name="CounterConfig.incr">1</stringProp>
+          <stringProp name="CounterConfig.name">REQ_INDEX</stringProp>
+          <stringProp name="CounterConfig.format"></stringProp>
+          <boolProp name="CounterConfig.per_user">false</boolProp>
+        </CounterConfig>
+        <hashTree/>
+        <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer">
+          <intProp name="groupSize">3</intProp>
+          <longProp name="timeoutInMs">0</longProp>
+        </SyncTimer>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="CheckTicketDeletion">
+        <intProp name="ThreadGroup.num_threads">3</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree/>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUpForDeleteAndUpdate">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="AddObjectForUpdate" enabled="true">
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.path">add_ticket</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;name&quot;: &quot;Матч выходного дня&quot;,&#xd;
+    &quot;price&quot;: 85.0,&#xd;
+    &quot;type&quot;: &quot;USUAL&quot;,&#xd;
+    &quot;number&quot;: 40,&#xd;
+    &quot;comment&quot;: &quot;Семейный сектор&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 21,&#xd;
+      &quot;y&quot;: 12.7&#xd;
+    }&#xd;
+  }</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="AddObjectForDelete" enabled="true">
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.path">add_ticket</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;name&quot;: &quot;Матч выходного дня&quot;,&#xd;
+    &quot;price&quot;: 85.0,&#xd;
+    &quot;type&quot;: &quot;USUAL&quot;,&#xd;
+    &quot;number&quot;: 40,&#xd;
+    &quot;comment&quot;: &quot;Семейный сектор&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 21,&#xd;
+      &quot;y&quot;: 12.7&#xd;
+    }&#xd;
+  }</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="DeleteChecker">
+        <intProp name="ThreadGroup.num_threads">3</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="notFirstCheck">
+          <stringProp name="IfController.condition">${__jexl3(${REQ_INDEX} &gt; 1,)}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+        </IfController>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="51508">400</stringProp>
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">40</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DeleteChecker">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">8080</stringProp>
+            <stringProp name="HTTPSampler.path">/delete_ticket/2</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">DELETE</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+          <stringProp name="CounterConfig.start">1</stringProp>
+          <stringProp name="CounterConfig.end"></stringProp>
+          <stringProp name="CounterConfig.incr">1</stringProp>
+          <stringProp name="CounterConfig.name">REQ_INDEX</stringProp>
+          <stringProp name="CounterConfig.format"></stringProp>
+          <boolProp name="CounterConfig.per_user">false</boolProp>
+        </CounterConfig>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="firstCheck">
+          <stringProp name="IfController.condition">${__jexl3(${REQ_INDEX} == 1,)}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DeleteChecker" enabled="true">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">8080</stringProp>
+            <stringProp name="HTTPSampler.path">/delete_ticket/2</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">DELETE</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="51508">400</stringProp>
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">40</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer">
+          <intProp name="groupSize">3</intProp>
+          <longProp name="timeoutInMs">0</longProp>
+        </SyncTimer>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="UpdateChecker">
+        <intProp name="ThreadGroup.num_threads">3</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="notFirstCheck">
+          <stringProp name="IfController.condition">${__jexl3(${REQ_INDEX} &gt; 1,)}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="UpdateChecker">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">8080</stringProp>
+            <stringProp name="HTTPSampler.path">/update_ticket/1</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;name&quot;: &quot;Яйца&quot;,&#xd;
+    &quot;price&quot;: 33,&#xd;
+    &quot;type&quot;: &quot;USUAL&quot;,&#xd;
+    &quot;number&quot;: 2,&#xd;
+    &quot;comment&quot;: &quot;Семейный сектор&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 21,&#xd;
+      &quot;y&quot;: 213&#xd;
+    }&#xd;
+  }</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="51508">400</stringProp>
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">40</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="firstCheck">
+          <stringProp name="IfController.condition">${__jexl3(${REQ_INDEX} == 1,)}</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="UpdateChecker" enabled="true">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">8080</stringProp>
+            <stringProp name="HTTPSampler.path">/update_ticket/1</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;name&quot;: &quot;Матч выходного дня&quot;,&#xd;
+    &quot;price&quot;: 85.0,&#xd;
+    &quot;type&quot;: &quot;USUAL&quot;,&#xd;
+    &quot;number&quot;: 40,&#xd;
+    &quot;comment&quot;: &quot;Семейный сектор&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 2,&#xd;
+      &quot;y&quot;: 32&#xd;
+    }&#xd;
+  }</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="51508">400</stringProp>
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">40</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+          <stringProp name="CounterConfig.start">1</stringProp>
+          <stringProp name="CounterConfig.end"></stringProp>
+          <stringProp name="CounterConfig.incr">1</stringProp>
+          <stringProp name="CounterConfig.name">REQ_INDEX</stringProp>
+          <stringProp name="CounterConfig.format"></stringProp>
+          <boolProp name="CounterConfig.per_user">false</boolProp>
+        </CounterConfig>
+        <hashTree/>
+        <SyncTimer guiclass="TestBeanGUI" testclass="SyncTimer" testname="Synchronizing Timer">
+          <intProp name="groupSize">3</intProp>
+          <longProp name="timeoutInMs">0</longProp>
+        </SyncTimer>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="ImportChecker">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">3</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="ImportChecker" enabled="true">
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.path">/tickets/import</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">[&#xd;
+  {&#xd;
+    &quot;name&quot;: &quot;Фестиваль осени&quot;,&#xd;
+    &quot;price&quot;: 150.0,&#xd;
+    &quot;type&quot;: &quot;VIP&quot;,&#xd;
+    &quot;number&quot;: 100,&#xd;
+    &quot;discount&quot;: 15.5,&#xd;
+    &quot;comment&quot;: &quot;Премиум пакет&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 12,&#xd;
+      &quot;y&quot;: 45.3&#xd;
+    },&#xd;
+    &quot;person&quot;: {&#xd;
+      &quot;passportID&quot;: &quot;ZX1234567&quot;,&#xd;
+      &quot;weight&quot;: 72.5,&#xd;
+      &quot;nationality&quot;: &quot;GERMANY&quot;,&#xd;
+      &quot;hairColor&quot;: &quot;BROWN&quot;,&#xd;
+      &quot;eyeColor&quot;: &quot;GREEN&quot;,&#xd;
+      &quot;location&quot;: {&#xd;
+        &quot;x&quot;: 5,&#xd;
+        &quot;y&quot;: 10.2,&#xd;
+        &quot;z&quot;: 3.5&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;event&quot;: {&#xd;
+      &quot;name&quot;: &quot;Autumn Fest&quot;,&#xd;
+      &quot;ticketsCount&quot;: 500,&#xd;
+      &quot;eventType&quot;: &quot;CONCERT&quot;&#xd;
+    },&#xd;
+    &quot;venue&quot;: {&#xd;
+      &quot;name&quot;: &quot;Central Park Stage&quot;,&#xd;
+      &quot;capacity&quot;: 5000,&#xd;
+      &quot;type&quot;: &quot;OPEN_AREA&quot;&#xd;
+    }&#xd;
+  },&#xd;
+  {&#xd;
+    &quot;name&quot;: &quot;Матч выходного дня&quot;,&#xd;
+    &quot;price&quot;: 85.0,&#xd;
+    &quot;type&quot;: &quot;USUAL&quot;,&#xd;
+    &quot;number&quot;: 40,&#xd;
+    &quot;comment&quot;: &quot;Семейный сектор&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 21,&#xd;
+      &quot;y&quot;: 12.7&#xd;
+    },&#xd;
+    &quot;person&quot;: {&#xd;
+      &quot;passportID&quot;: &quot;ZX1234567&quot;,&#xd;
+      &quot;weight&quot;: 68.0,&#xd;
+      &quot;nationality&quot;: &quot;JAPAN&quot;,&#xd;
+      &quot;hairColor&quot;: &quot;RED&quot;,&#xd;
+      &quot;eyeColor&quot;: &quot;BROWN&quot;,&#xd;
+      &quot;location&quot;: {&#xd;
+        &quot;x&quot;: -2,&#xd;
+        &quot;y&quot;: 0.5,&#xd;
+        &quot;z&quot;: 1.2&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;event&quot;: {&#xd;
+      &quot;name&quot;: &quot;Weekend League&quot;,&#xd;
+      &quot;ticketsCount&quot;: 1200,&#xd;
+      &quot;eventType&quot;: &quot;FOOTBALL&quot;&#xd;
+    },&#xd;
+    &quot;venue&quot;: {&#xd;
+      &quot;name&quot;: &quot;North Arena&quot;,&#xd;
+      &quot;capacity&quot;: 12000,&#xd;
+      &quot;type&quot;: &quot;STADIUM&quot;&#xd;
+    }&#xd;
+  },&#xd;
+  {&#xd;
+    &quot;name&quot;: &quot;Opera Night&quot;,&#xd;
+    &quot;price&quot;: 220.0,&#xd;
+    &quot;type&quot;: &quot;VIP&quot;,&#xd;
+    &quot;number&quot;: 30,&#xd;
+    &quot;discount&quot;: 10.0,&#xd;
+    &quot;comment&quot;: &quot;Балкон&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 33,&#xd;
+      &quot;y&quot;: 8.5&#xd;
+    },&#xd;
+    &quot;person&quot;: {&#xd;
+      &quot;passportID&quot;: &quot;ZX123456723&quot;,&#xd;
+      &quot;weight&quot;: 64.0,&#xd;
+      &quot;nationality&quot;: &quot;THAILAND&quot;,&#xd;
+      &quot;hairColor&quot;: &quot;WHITE&quot;,&#xd;
+      &quot;eyeColor&quot;: &quot;GREEN&quot;,&#xd;
+      &quot;location&quot;: {&#xd;
+        &quot;x&quot;: 14,&#xd;
+        &quot;y&quot;: -2.0,&#xd;
+        &quot;z&quot;: 6.8&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;event&quot;: {&#xd;
+      &quot;name&quot;: &quot;Grand Opera&quot;,&#xd;
+      &quot;ticketsCount&quot;: 300,&#xd;
+      &quot;eventType&quot;: &quot;OPERA&quot;&#xd;
+    },&#xd;
+    &quot;venue&quot;: {&#xd;
+      &quot;name&quot;: &quot;Royal Hall&quot;,&#xd;
+      &quot;capacity&quot;: 1800,&#xd;
+      &quot;type&quot;: &quot;STADIUM&quot;&#xd;
+    }&#xd;
+  },&#xd;
+  {&#xd;
+    &quot;name&quot;: &quot;Basket League Finals&quot;,&#xd;
+    &quot;price&quot;: 150.0,&#xd;
+    &quot;type&quot;: &quot;VIP&quot;,&#xd;
+    &quot;number&quot;: 200,&#xd;
+    &quot;comment&quot;: &quot;Финальный матч&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 77,&#xd;
+      &quot;y&quot;: 51.4&#xd;
+    },&#xd;
+    &quot;person&quot;: {&#xd;
+      &quot;passportID&quot;: &quot;KR1122334&quot;,&#xd;
+      &quot;weight&quot;: 75.0,&#xd;
+      &quot;nationality&quot;: &quot;SOUTH_KOREA&quot;,&#xd;
+      &quot;hairColor&quot;: &quot;BROWN&quot;,&#xd;
+      &quot;eyeColor&quot;: &quot;BROWN&quot;,&#xd;
+      &quot;location&quot;: {&#xd;
+        &quot;x&quot;: 0,&#xd;
+        &quot;y&quot;: 0.4,&#xd;
+        &quot;z&quot;: 2.1&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;event&quot;: {&#xd;
+      &quot;name&quot;: &quot;Basketball Final&quot;,&#xd;
+      &quot;ticketsCount&quot;: 8000,&#xd;
+      &quot;eventType&quot;: &quot;BASKETBALL&quot;&#xd;
+    },&#xd;
+    &quot;venue&quot;: {&#xd;
+      &quot;name&quot;: &quot;Sky Dome&quot;,&#xd;
+      &quot;capacity&quot;: 15000,&#xd;
+      &quot;type&quot;: &quot;STADIUM&quot;&#xd;
+    }&#xd;
+  },&#xd;
+  {&#xd;
+    &quot;name&quot;: &quot;Budget Concert&quot;,&#xd;
+    &quot;price&quot;: 45.0,&#xd;
+    &quot;type&quot;: &quot;BUDGETARY&quot;,&#xd;
+    &quot;number&quot;: 120,&#xd;
+    &quot;comment&quot;: &quot;Дневной сеанс&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: -10,&#xd;
+      &quot;y&quot;: 5.0&#xd;
+    },&#xd;
+    &quot;person&quot;: {&#xd;
+      &quot;passportID&quot;: &quot;DE9988776&quot;,&#xd;
+      &quot;weight&quot;: 82.0,&#xd;
+      &quot;nationality&quot;: &quot;GERMANY&quot;,&#xd;
+      &quot;hairColor&quot;: &quot;BROWN&quot;,&#xd;
+      &quot;eyeColor&quot;: &quot;GREEN&quot;,&#xd;
+      &quot;location&quot;: {&#xd;
+        &quot;x&quot;: 2,&#xd;
+        &quot;y&quot;: 1.0,&#xd;
+        &quot;z&quot;: 0.8&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;event&quot;: {&#xd;
+      &quot;name&quot;: &quot;Indie Fest&quot;,&#xd;
+      &quot;ticketsCount&quot;: 900,&#xd;
+      &quot;eventType&quot;: &quot;CONCERT&quot;&#xd;
+    },&#xd;
+    &quot;venue&quot;: {&#xd;
+      &quot;name&quot;: &quot;Old Factory&quot;,&#xd;
+      &quot;capacity&quot;: 900,&#xd;
+      &quot;type&quot;: &quot;LOFT&quot;&#xd;
+    }&#xd;
+  },&#xd;
+  {&#xd;
+    &quot;name&quot;: &quot;Baseball Classic&quot;,&#xd;
+    &quot;price&quot;: 95.0,&#xd;
+    &quot;type&quot;: &quot;USUAL&quot;,&#xd;
+    &quot;number&quot;: 55,&#xd;
+    &quot;comment&quot;: &quot;Премьерный матч&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 60,&#xd;
+      &quot;y&quot;: 30.0&#xd;
+    },&#xd;
+    &quot;person&quot;: {&#xd;
+      &quot;passportID&quot;: &quot;US4455667&quot;,&#xd;
+      &quot;weight&quot;: 90.0,&#xd;
+      &quot;nationality&quot;: &quot;INDIA&quot;,&#xd;
+      &quot;hairColor&quot;: &quot;BROWN&quot;,&#xd;
+      &quot;eyeColor&quot;: &quot;BROWN&quot;,&#xd;
+      &quot;location&quot;: {&#xd;
+        &quot;x&quot;: -5,&#xd;
+        &quot;y&quot;: -1.5,&#xd;
+        &quot;z&quot;: 0.0&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;event&quot;: {&#xd;
+      &quot;name&quot;: &quot;Spring Baseball&quot;,&#xd;
+      &quot;ticketsCount&quot;: 5000,&#xd;
+      &quot;eventType&quot;: &quot;BASEBALL&quot;&#xd;
+    },&#xd;
+    &quot;venue&quot;: {&#xd;
+      &quot;name&quot;: &quot;Diamond Field&quot;,&#xd;
+      &quot;capacity&quot;: 8500,&#xd;
+      &quot;type&quot;: &quot;STADIUM&quot;&#xd;
+    }&#xd;
+  },&#xd;
+  {&#xd;
+    &quot;name&quot;: &quot;VIP Chill&quot;,&#xd;
+    &quot;price&quot;: 120.0,&#xd;
+    &quot;type&quot;: &quot;VIP&quot;,&#xd;
+    &quot;number&quot;: 25,&#xd;
+    &quot;discount&quot;: 5.0,&#xd;
+    &quot;comment&quot;: &quot;Для постоянных гостей&quot;,&#xd;
+    &quot;coordinates&quot;: {&#xd;
+      &quot;x&quot;: 5,&#xd;
+      &quot;y&quot;: 2.5&#xd;
+    },&#xd;
+    &quot;person&quot;: {&#xd;
+      &quot;passportID&quot;: &quot;JP4433221&quot;,&#xd;
+      &quot;weight&quot;: 59.0,&#xd;
+      &quot;nationality&quot;: &quot;JAPAN&quot;,&#xd;
+      &quot;hairColor&quot;: &quot;GREEN&quot;,&#xd;
+      &quot;eyeColor&quot;: &quot;GREEN&quot;,&#xd;
+      &quot;location&quot;: {&#xd;
+        &quot;x&quot;: 9,&#xd;
+        &quot;y&quot;: 1.4,&#xd;
+        &quot;z&quot;: 3.0&#xd;
+      }&#xd;
+    },&#xd;
+    &quot;event&quot;: {&#xd;
+      &quot;name&quot;: &quot;Smooth Evening&quot;,&#xd;
+      &quot;ticketsCount&quot;: 200,&#xd;
+      &quot;eventType&quot;: &quot;CONCERT&quot;&#xd;
+    },&#xd;
+    &quot;venue&quot;: {&#xd;
+      &quot;name&quot;: &quot;Lounge Terrace&quot;,&#xd;
+      &quot;capacity&quot;: 350,&#xd;
+      &quot;type&quot;: &quot;OPEN_AREA&quot;&#xd;
+    }&#xd;
+  }&#xd;
+]</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="51508">400</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

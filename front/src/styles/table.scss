@@ -1,0 +1,150 @@
+@import 'colors';
+
+.table-wrap {
+  display: grid;
+  gap: 12px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  gap: 12px;
+  align-items: center;
+
+  &__title {
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  &__search {
+    padding: 10px 12px;
+    border: 1px solid $color-border-table;
+    border-radius: 10px;
+    outline: none;
+    min-width: 340px;
+
+    &:focus {
+      border-color: $color-accent;
+      box-shadow: 0 0 0 3px $color-accent-shadow;
+    }
+  }
+
+  &__label {
+    color: $color-text-default;
+  }
+
+  &__select {
+    padding: 8px 10px;
+    border: 1px solid $color-border-table;
+    border-radius: 10px;
+    background: $color-bg-white;
+  }
+
+  &__pager {
+    margin-left: auto;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+.pager-btn {
+  padding: 8px 12px;
+  border: 1px solid $color-border-table;
+  background: $color-bg-white;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.status {
+  padding: 10px 12px;
+  background: $color-bg-status;
+  color: $color-text-status-critical;
+  border: 1px solid $color-border-status;
+  border-radius: 10px;
+}
+
+.table-container {
+  border-radius: 14px;
+  border: 1px solid $color-border-table;
+  overflow: hidden;
+  background: $color-bg-white;
+}
+
+.table-scroll {
+  overflow: auto;
+  max-height: 60vh;
+}
+
+.tickets-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  line-height: 1.35;
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background: $color-bg-muted;
+    font-weight: 700;
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid $color-border-table;
+    min-width: var(--w);
+    max-width: var(--w);
+    white-space: nowrap;
+
+    &.sortable {
+      cursor: pointer;
+
+      &:hover {
+        background: $color-bg-hover;
+      }
+    }
+  }
+
+  tbody td {
+    padding: 12px 14px;
+    border-top: 1px solid $color-border-table-row;
+    min-width: var(--w);
+    max-width: var(--w);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  tbody tr:first-child td {
+    border-top: none;
+  }
+
+  td.wrap-cell,
+  td .wrap-cell {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-word;
+    line-height: 1.25;
+  }
+
+  &__empty {
+    text-align: center;
+    color: $color-text-muted;
+    padding: 16px;
+  }
+
+  thead th:first-child,
+  tbody tr:first-child td:first-child {
+    border-top-left-radius: 14px;
+  }
+
+  thead th:last-child,
+  tbody tr:first-child td:last-child {
+    border-top-right-radius: 14px;
+  }
+}

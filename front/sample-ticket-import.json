@@ -1,0 +1,236 @@
+[
+  {
+    "name": "Фестиваль осени",
+    "price": 150.0,
+    "type": "VIP",
+    "number": 100,
+    "discount": 15.5,
+    "comment": "Премиум пакет",
+    "coordinates": {
+      "x": 12,
+      "y": 45.3
+    },
+    "person": {
+      "passportID": "ZX1234567",
+      "weight": 72.5,
+      "nationality": "GERMANY",
+      "hairColor": "BROWN",
+      "eyeColor": "GREEN",
+      "location": {
+        "x": 5,
+        "y": 10.2,
+        "z": 3.5
+      }
+    },
+    "event": {
+      "name": "Autumn Fest",
+      "ticketsCount": 500,
+      "eventType": "CONCERT"
+    },
+    "venue": {
+      "name": "Central Park Stage",
+      "capacity": 5000,
+      "type": "OPEN_AREA"
+    }
+  },
+  {
+    "name": "Матч выходного дня",
+    "price": 85.0,
+    "type": "USUAL",
+    "number": 40,
+    "comment": "Семейный сектор",
+    "coordinates": {
+      "x": 21,
+      "y": 12.7
+    },
+    "person": {
+      "passportID": "PL9080706",
+      "weight": 68.0,
+      "nationality": "JAPAN",
+      "hairColor": "RED",
+      "eyeColor": "BROWN",
+      "location": {
+        "x": -2,
+        "y": 0.5,
+        "z": 1.2
+      }
+    },
+    "event": {
+      "name": "Weekend League",
+      "ticketsCount": 1200,
+      "eventType": "FOOTBALL"
+    },
+    "venue": {
+      "name": "North Arena",
+      "capacity": 12000,
+      "type": "STADIUM"
+    }
+  },
+  {
+    "name": "Opera Night",
+    "price": 220.0,
+    "type": "VIP",
+    "number": 30,
+    "discount": 10.0,
+    "comment": "Балкон",
+    "coordinates": {
+      "x": 33,
+      "y": 8.5
+    },
+    "person": {
+      "passportID": "TH5566778",
+      "weight": 64.0,
+      "nationality": "THAILAND",
+      "hairColor": "WHITE",
+      "eyeColor": "GREEN",
+      "location": {
+        "x": 14,
+        "y": -2.0,
+        "z": 6.8
+      }
+    },
+    "event": {
+      "name": "Grand Opera",
+      "ticketsCount": 300,
+      "eventType": "OPERA"
+    },
+    "venue": {
+      "name": "Royal Hall",
+      "capacity": 1800,
+      "type": "STADIUM"
+    }
+  },
+  {
+    "name": "Basket League Finals",
+    "price": 150.0,
+    "type": "VIP",
+    "number": 200,
+    "comment": "Финальный матч",
+    "coordinates": {
+      "x": 77,
+      "y": 51.4
+    },
+    "person": {
+      "passportID": "KR1122334",
+      "weight": 75.0,
+      "nationality": "SOUTH_KOREA",
+      "hairColor": "BROWN",
+      "eyeColor": "BROWN",
+      "location": {
+        "x": 0,
+        "y": 0.4,
+        "z": 2.1
+      }
+    },
+    "event": {
+      "name": "Basketball Final",
+      "ticketsCount": 8000,
+      "eventType": "BASKETBALL"
+    },
+    "venue": {
+      "name": "Sky Dome",
+      "capacity": 15000,
+      "type": "STADIUM"
+    }
+  },
+  {
+    "name": "Budget Concert",
+    "price": 45.0,
+    "type": "BUDGETARY",
+    "number": 120,
+    "comment": "Дневной сеанс",
+    "coordinates": {
+      "x": -10,
+      "y": 5.0
+    },
+    "person": {
+      "passportID": "DE9988776",
+      "weight": 82.0,
+      "nationality": "GERMANY",
+      "hairColor": "BROWN",
+      "eyeColor": "GREEN",
+      "location": {
+        "x": 2,
+        "y": 1.0,
+        "z": 0.8
+      }
+    },
+    "event": {
+      "name": "Indie Fest",
+      "ticketsCount": 900,
+      "eventType": "CONCERT"
+    },
+    "venue": {
+      "name": "Old Factory",
+      "capacity": 900,
+      "type": "LOFT"
+    }
+  },
+  {
+    "name": "Baseball Classic",
+    "price": 95.0,
+    "type": "USUAL",
+    "number": 55,
+    "comment": "Премьерный матч",
+    "coordinates": {
+      "x": 60,
+      "y": 30.0
+    },
+    "person": {
+      "passportID": "US4455667",
+      "weight": 90.0,
+      "nationality": "INDIA",
+      "hairColor": "BROWN",
+      "eyeColor": "BROWN",
+      "location": {
+        "x": -5,
+        "y": -1.5,
+        "z": 0.0
+      }
+    },
+    "event": {
+      "name": "Spring Baseball",
+      "ticketsCount": 5000,
+      "eventType": "BASEBALL"
+    },
+    "venue": {
+      "name": "Diamond Field",
+      "capacity": 8500,
+      "type": "STADIUM"
+    }
+  },
+  {
+    "name": "VIP Chill",
+    "price": 120.0,
+    "type": "VIP",
+    "number": 25,
+    "discount": 5.0,
+    "comment": "Для постоянных гостей",
+    "coordinates": {
+      "x": 5,
+      "y": 2.5
+    },
+    "person": {
+      "passportID": "JP4433221",
+      "weight": 59.0,
+      "nationality": "JAPAN",
+      "hairColor": "GREEN",
+      "eyeColor": "GREEN",
+      "location": {
+        "x": 9,
+        "y": 1.4,
+        "z": 3.0
+      }
+    },
+    "event": {
+      "name": "Smooth Evening",
+      "ticketsCount": 200,
+      "eventType": "CONCERT"
+    },
+    "venue": {
+      "name": "Lounge Terrace",
+      "capacity": 350,
+      "type": "OPEN_AREA"
+    }
+  }
+]

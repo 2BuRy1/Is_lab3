@@ -1,0 +1,74 @@
+@import 'colors';
+
+.funcs-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 16px;
+}
+
+.funcs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+}
+
+.func-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid $color-border-light;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: $color-bg-white;
+
+  input {
+    padding: 4px 6px;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+    width: 80px;
+  }
+}
+
+.result-card {
+  border: 1px solid $color-border;
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: $color-bg-card;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .title {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .kv {
+    display: grid;
+    grid-template-columns: 100px auto;
+    gap: 2px 6px;
+  }
+}
+
+.status {
+  margin-top: 10px;
+  font-weight: 500;
+
+  &.ok {
+    color: $color-status-ok;
+  }
+
+  &.err {
+    color: $color-status-err;
+  }
+}
+
+.back-link {
+  margin-top: 16px;
+}

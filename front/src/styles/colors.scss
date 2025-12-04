@@ -1,0 +1,51 @@
+$color-separator: #gfcd;
+$color-bg-white: #fff;
+$color-bg-main: #f7f7f7;
+$color-bg-card: #fafafa;
+$color-bg-muted: #f8fafc;
+$color-bg-hover: #f1f5f9;
+$color-bg-light: #e0e0e0;
+$color-bg-light-hover: #d5d5d5;
+$color-bg-danger: #ffeaea;
+$color-bg-status: #fff7f7;
+
+$color-border: #ccc;
+$color-border-light: #ddd;
+$color-border-secondary: #bbb;
+$color-border-danger: #d66;
+$color-border-table: #e6e9ef;
+$color-border-table-row: #f1f2f6;
+$color-border-status: #ffd7d7;
+
+$color-text-default: #555;
+$color-text-muted: #777;
+$color-text-status-ok: #1b8a1b;
+$color-text-status-err: #c22;
+$color-text-critical: #b20000;
+
+$color-accent: #409eff;
+$color-accent-shadow: rgba(64, 158, 255, 0.15);
+
+$color-bg-default: $color-bg-main;
+$color-status-ok: $color-text-status-ok;
+$color-status-err: $color-text-status-err;
+
+$color-block-highlight: $color-bg-white;
+$color-text-status-critical: $color-text-critical;
+
+$color-secondary-bg: $color-bg-light !default;
+$color-secondary-bg-hover: $color-bg-light-hover !default;
+$color-toolbar-border: #dcdfe6 !default;
+$color-block-border: #ccc !default;
+
+$color-text-link: #3366cc !default;
+$color-text-error: #c22 !default;
+$color-border: #ccc !default;
+$color-border-light: #ddd !default;
+$color-border-danger: #d33 !default;
+
+$color-bg-page: #fff !default;
+$color-bg-card: #fff !default;
+$color-bg-input: #fff !default;
+$color-bg-btn: #f7f7f7 !default;
+$color-bg-err: #fff6f6 !default;

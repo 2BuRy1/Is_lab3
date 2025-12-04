@@ -1,0 +1,84 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.5'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'checkstyle'
+    id "org.openapi.generator" version "7.6.0"
+}
+
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec     = "$rootDir/openapi.yml"
+//    outputDir     = "src/main/java/openapi-server"
+    outputDir = "$buildDir/generated"
+    globalProperties = [
+            apis     : "",
+            apiDocs  : "false",
+            apiTests : "false"
+    ]
+    additionalProperties = [
+            useSpringBoot3  : "true",
+            "skipDefault" : "true",
+            useJakartaEE    : "true",
+            delegatePattern : "false",
+            interfaceOnly   : "false",
+            useTags         : "true",
+            apiNameSuffix   : "Api",
+            apiPackage      : "com.example.api",
+            basePackage     : "com.example",
+            invokerPackage  : "com.example.config"
+    ]
+}
+
+checkstyle {
+    toolVersion = '11.0.1'
+
+    ignoreFailures = false
+    showViolations = true
+}
+
+
+group = 'java.systems.project'
+version = ''
+description = 'backend'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.retry:spring-retry'
+    testImplementation("org.mockito:mockito-core:5.19.0")
+    testImplementation platform("org.junit:junit-bom:5.11.3")
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    implementation("jakarta.validation:jakarta.validation-api:3.1.1")
+    compileOnly 'org.projectlombok:lombok'
+    implementation("org.postgresql:postgresql:42.7.7")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.37")
+    implementation("org.openapitools:jackson-databind-nullable:0.2.7")
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation("com.puppycrawl.tools:checkstyle:11.0.1")
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

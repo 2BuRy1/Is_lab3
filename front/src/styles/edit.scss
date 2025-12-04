@@ -1,0 +1,94 @@
+@import 'colors';
+
+.edit-wrap {
+  padding: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+  background: $color-bg-page;
+}
+
+.edit-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link-back {
+  text-decoration: none;
+  color: $color-text-link;
+}
+
+.status {
+  color: $color-text-error;
+}
+
+.edit-card {
+  border: 1px solid $color-border-light;
+  border-radius: 8px;
+  padding: 16px;
+  background: $color-bg-card;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+
+  label {
+    align-self: center;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 8px;
+    border: 1px solid $color-border;
+    border-radius: 6px;
+    background: $color-bg-input;
+  }
+}
+
+.fieldset {
+  grid-column: 1 / -1;
+  font-weight: 600;
+  margin-top: 8px;
+  padding-top: 4px;
+  border-top: 1px dashed $color-separator;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  background: $color-bg-btn;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+input.err,
+select.err,
+textarea.err {
+  border-color: $color-border-danger !important;
+  background: $color-bg-err !important;
+  outline: none;
+}
+
+.help-err {
+  grid-column: 2 / 3;
+  color: $color-text-error;
+  font-size: 12px;
+  margin-top: -6px;
+  margin-bottom: 6px;
+}

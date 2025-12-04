@@ -1,0 +1,553 @@
+openapi: 3.0.3
+info:
+  title: Tickets API
+  version: 1.0.0
+  description: REST API для управления билетами, людьми, событиями и площадками.
+
+servers:
+  - url: /
+
+tags:
+  - name: Tickets
+  - name: Events
+  - name: Persons
+  - name: Venues
+
+paths:
+  /add_ticket:
+    post:
+      tags: [Tickets]
+      summary: Создать билет
+      operationId: addTicket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Ticket' }
+      responses:
+        '200':
+          description: Создано (data может содержать созданный Ticket)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка валидации/создания
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+
+  /update_ticket/{id}:
+    post:
+      tags: [ Tickets ]
+      summary: Обновить билет
+      operationId: updateTicket
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, format: int32 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Ticket' }
+      responses:
+        '200':
+          description: Обновлено
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /clone_vip:
+    post:
+      tags: [Tickets]
+      summary: Клонировать билет как VIP (цена ×2)
+      operationId: cloneVip
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CloneRequest' }
+      responses:
+        '200':
+          description: Копия создана (data = Ticket)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Не найден исходный билет/ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /count_comment_less:
+    get:
+      tags: [Tickets]
+      summary: Подсчёт билетов с comment лексикографически меньше данного
+      operationId: countCommentLess
+      parameters:
+        - in: query
+          name: comment
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Количество (data = integer)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /delete_by_comment:
+    delete:
+      tags: [Tickets]
+      summary: Массовое удаление билетов по точному совпадению comment
+      operationId: deleteByComment
+      parameters:
+        - in: query
+          name: commentEq
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Удалено (data может быть пустым/сводкой)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ничего не найдено/ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /delete_ticket/{id}:
+    delete:
+      tags: [Tickets]
+      summary: Удалить билет по ID
+      operationId: deleteTicket
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, format: int32 }
+      responses:
+        '200':
+          description: Удалено (data может быть пустым/сводкой)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Не найдено/ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /get_ticket/{id}:
+    get:
+      tags: [Tickets]
+      summary: Получить билет по ID
+      operationId: getTicketById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, format: int32 }
+      responses:
+        '200':
+          description: Найдено (data = Ticket)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Билет не найден
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /get_tickets:
+    get:
+      tags: [Tickets]
+      summary: Получить список билетов
+      operationId: getTickets
+      responses:
+        '200':
+          description: Успех (data = TicketsEnvelope)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /tickets/import:
+    post:
+      tags: [Tickets]
+      summary: Импортировать список билетов
+      operationId: importTickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: '#/components/schemas/Ticket' }
+      responses:
+        '200':
+          description: Импорт завершён (data = ImportResult)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ImportResponse' }
+        '400':
+          description: Ошибка импорта
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /min_event_ticket:
+    get:
+      tags: [Tickets]
+      summary: Билет с минимальным ID события
+      operationId: minEventTicket
+      responses:
+        '200':
+          description: Найдено (data = Ticket)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Не найдено
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /sell_ticket:
+    post:
+      tags: [Tickets]
+      summary: Продать билет пользователю
+      operationId: sellTicket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SellRequestDTO' }
+      responses:
+        '200':
+          description: Успех (data может содержать статус/сводку)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+  /tickets/stream:
+    get:
+      summary: Подписка на события (SSE)
+      description: Поток серверных событий об изменениях сущностей.
+      operationId: streamTickets
+      tags:
+        - Tickets
+      responses:
+        "200":
+          description: SSE поток
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                example: |
+                  data: {"event":"ticket-added","id":123}
+                  data: {"event":"ticket-updated","id":456}
+        "400":
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                type: string
+  /add_event:
+    post:
+      tags: [Events]
+      summary: Создать событие
+      operationId: addEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Event' }
+      responses:
+        '200':
+          description: Создано (data может содержать созданный Event)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+  /get_events:
+    get:
+      tags: [Events]
+      summary: Получить список событий
+      operationId: getEvents
+      responses:
+        '200':
+          description: Успех (data = EventsEnvelope)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+  /add_person:
+    post:
+      tags: [Persons]
+      summary: Создать человека
+      operationId: addPerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Person' }
+      responses:
+        '200':
+          description: Создано (data может содержать созданного Person)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+  /get_persons:
+    get:
+      tags: [Persons]
+      summary: Получить список людей
+      operationId: getPersons
+      responses:
+        '200':
+          description: Успех (data = PersonEnvelope)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+  /add_venue:
+    post:
+      tags: [Venues]
+      summary: Создать площадку
+      operationId: addVenue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Venue' }
+      responses:
+        '200':
+          description: Создано (data может содержать созданный Venue)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+  /get_venues:
+    get:
+      tags: [Venues]
+      summary: Получить список площадок
+      operationId: getVenues
+      responses:
+        '200':
+          description: Успех (data = VenuesEnvelope)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SuccessResponse' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+
+components:
+  schemas:
+    AbstractResponse:
+      type: object
+      properties:
+        title: { type: string, nullable: true }
+        message: { type: string, nullable: true }
+        status: { type: string, nullable: true, example: "OK" }
+        data: { nullable: true, description: "Произвольные данные ответа" }
+
+    SuccessResponse:
+      allOf:
+        - $ref: '#/components/schemas/AbstractResponse'
+
+    ErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/AbstractResponse'
+
+    CloneRequest:
+      type: object
+      required: [ ticketId ]
+      properties:
+        ticketId:
+          type: integer
+          format: int32
+
+    SellRequestDTO:
+      type: object
+      required: [ ticketId, personId, amount ]
+      properties:
+        ticketId: { type: integer, format: int32 }
+        personId: { type: integer, format: int32 }
+        amount:
+          type: number
+          format: float
+          minimum: 0
+          exclusiveMinimum: true
+
+    Ticket:
+      type: object
+      properties:
+        id: { type: integer, format: int32, nullable: true }
+        name: { type: string }
+        price: { type: number, format: float }
+        type:
+          type: string
+          enum: [ VIP, USUAL, BUDGETARY, CHEAP ]
+        number: { type: integer, format: int32 }
+        discount: { type: number, format: float, nullable: true }
+        comment: { type: string, nullable: true }
+        creationDate: { type: string, format: date-time, nullable: true }
+        coordinates: { $ref: "#/components/schemas/Coordinates" }
+        person: { $ref: "#/components/schemas/Person", nullable: true }
+        event: { $ref: "#/components/schemas/Event", nullable: true }
+        venue: { $ref: "#/components/schemas/Venue", nullable: true }
+      required: [ name, price, type, number, coordinates ]
+
+
+
+    Coordinates:
+      type: object
+      required: [ x, y ]
+      properties:
+        x: { type: integer, format: int32 }
+        y: { type: number, format: float }
+
+    Person:
+      type: object
+      properties:
+        id: { type: integer, format: int32, nullable: true }
+        passportID: { type: string, nullable: true }
+        weight: { type: number, format: float, nullable: true }
+        nationality:
+          type: string
+          nullable: true
+          enum: [ GERMANY, INDIA, THAILAND, SOUTH_KOREA, JAPAN ]
+        hairColor:
+          type: string
+          nullable: true
+          enum: [ GREEN, RED, ORANGE, WHITE, BROWN ]
+        eyeColor:
+          type: string
+          nullable: true
+          enum: [ GREEN, RED, ORANGE, WHITE, BROWN ]
+        location:
+          type: object
+          nullable: true
+          properties:
+            x: { type: integer, format: int32 }
+            y: { type: number,  format: float }
+            z: { type: number,  format: float }
+          required: [ x, y, z ]
+
+    Event:
+      type: object
+      properties:
+        id: { type: integer, format: int32, nullable: true }
+        name: { type: string }
+        ticketsCount: { type: integer, format: int32, nullable: true }
+        eventType:
+          type: string
+          nullable: true
+          enum: [ CONCERT, FOOTBALL, BASEBALL, BASKETBALL, OPERA ]
+
+    Venue:
+      type: object
+      properties:
+        id: { type: integer, format: int32, nullable: true }
+        name: { type: string }
+        capacity: { type: integer, format: int32, nullable: true }
+        type:
+          type: string
+          nullable: true
+          enum: [ LOFT, OPEN_AREA, STADIUM ]
+
+    ImportResult:
+      type: object
+      properties:
+        requested: { type: integer, format: int32 }
+        imported: { type: integer, format: int32 }
+        ticketIds:
+          type: array
+          items: { type: integer, format: int32 }
+
+    ImportResponse:
+      allOf:
+        - $ref: '#/components/schemas/AbstractResponse'
+      properties:
+        data:
+          $ref: '#/components/schemas/ImportResult'
+
+    TicketsEnvelope:
+      type: object
+      required: [ tickets ]
+      properties:
+        tickets:
+          type: array
+          items: { $ref: '#/components/schemas/Ticket' }
+
+    EventsEnvelope:
+      type: object
+      required: [ events ]
+      properties:
+        events:
+          type: array
+          items: { $ref: '#/components/schemas/Event' }
+
+    PersonEnvelope:
+      type: object
+      required: [ persons ]
+      properties:
+        persons:
+          type: array
+          items: { $ref: '#/components/schemas/Person' }
+
+    VenuesEnvelope:
+      type: object
+      required: [ venues ]
+      properties:
+        venues:
+          type: array
+          items: { $ref: '#/components/schemas/Venue' }
