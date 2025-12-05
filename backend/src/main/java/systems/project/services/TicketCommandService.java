@@ -9,6 +9,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import systems.project.cache.CacheStatsTracked;
 import systems.project.models.Coordinates;
 import systems.project.exceptions.InvalidDataException;
 import systems.project.models.Event;
@@ -56,6 +57,7 @@ public class TicketCommandService {
         this.locationRepository = locationRepository;
     }
 
+    @CacheStatsTracked
     public Map<String, List<Ticket>> getTickets() {
         try {
             List<Ticket> list = ticketRepository.findAllBy();
@@ -89,6 +91,7 @@ public class TicketCommandService {
         }
     }
 
+    @CacheStatsTracked
     public Ticket getTicket(Integer id) {
         try {
             return ticketRepository.findById(id).orElse(null);
@@ -153,6 +156,7 @@ public class TicketCommandService {
         }
     }
 
+    @CacheStatsTracked
     public Ticket getWithMinEvent() {
         try {
             Optional<Ticket> res = ticketRepository.findFirstByEventIsNotNullOrderByEventIdAsc();
@@ -162,6 +166,7 @@ public class TicketCommandService {
         }
     }
 
+    @CacheStatsTracked
     public Map<String, Long> countByCommentLess(String comment) {
         try {
             Long value = ticketRepository.countByCommentLessThan(comment);
@@ -242,6 +247,7 @@ public class TicketCommandService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @CacheStatsTracked
     public ImportResult importTickets(List<Ticket> tickets) throws InvalidDataException {
         if (tickets == null || tickets.isEmpty()) {
             throw new InvalidDataException("Список ticket пуст");

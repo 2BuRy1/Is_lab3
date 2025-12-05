@@ -12,6 +12,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import systems.project.cache.CacheStatsTracked;
 import systems.project.models.Person;
 import systems.project.repositories.LocationRepository;
 import systems.project.repositories.PersonRepository;
@@ -34,6 +35,7 @@ public class PersonCommandService {
         this.locationRepository = locationRepository;
     }
 
+    @CacheStatsTracked
     public Map<String, List<Person>> getPersons() {
         try {
             List<Person> people = personRepository.findAllBy();
