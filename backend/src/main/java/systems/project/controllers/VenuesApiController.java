@@ -7,7 +7,7 @@ import systems.project.controllers.api.VenuesApi;
 import systems.project.models.Venue;
 import systems.project.models.api.AbstractResponse;
 import systems.project.models.envelopes.VenuesEnvelope;
-import systems.project.services.VenueService;
+import systems.project.services.core.VenueService;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

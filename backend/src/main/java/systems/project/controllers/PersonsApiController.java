@@ -7,7 +7,7 @@ import systems.project.controllers.api.PersonsApi;
 import systems.project.models.Person;
 import systems.project.models.api.AbstractResponse;
 import systems.project.models.envelopes.PersonEnvelope;
-import systems.project.services.PersonService;
+import systems.project.services.core.PersonService;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

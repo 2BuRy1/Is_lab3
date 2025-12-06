@@ -18,15 +18,16 @@ import systems.project.repositories.LocationRepository;
 import systems.project.repositories.PersonRepository;
 import systems.project.repositories.TicketRepository;
 import systems.project.repositories.VenueRepository;
-import systems.project.services.EventCommandService;
-import systems.project.services.EventService;
-import systems.project.services.PersonCommandService;
-import systems.project.services.PersonService;
-import systems.project.services.TicketCommandService;
-import systems.project.services.TicketService;
-import systems.project.services.ValidateTypes;
-import systems.project.services.VenueCommandService;
-import systems.project.services.VenueService;
+import systems.project.services.command.EventCommandService;
+import systems.project.services.command.PersonCommandService;
+import systems.project.services.command.TicketCommandService;
+import systems.project.services.command.VenueCommandService;
+import systems.project.services.core.EventService;
+import systems.project.services.core.PersonService;
+import systems.project.services.core.TicketService;
+import systems.project.services.core.ValidateTypes;
+import systems.project.services.core.VenueService;
+import systems.project.services.imports.TicketImportCoordinator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,9 @@ class GetAndSaveTests {
     @Mock
     ValidateTypes validateTypes;
 
+    @Mock
+    TicketImportCoordinator ticketImportCoordinator;
+
     private TicketCommandService ticketCommandService;
     private PersonCommandService personCommandService;
     private EventCommandService eventCommandService;
@@ -86,7 +90,7 @@ class GetAndSaveTests {
         eventCommandService = new EventCommandService(eventRepository);
         venueCommandService = new VenueCommandService(venueRepository);
 
-        ticketService = new TicketService(ticketCommandService);
+        ticketService = new TicketService(ticketCommandService, ticketImportCoordinator);
         personService = new PersonService(personCommandService);
         eventService = new EventService(eventCommandService);
         venueService = new VenueService(venueCommandService);

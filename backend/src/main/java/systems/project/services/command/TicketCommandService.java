@@ -1,4 +1,4 @@
-package systems.project.services;
+package systems.project.services.command;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.dao.CannotSerializeTransactionException;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import systems.project.cache.CacheStatsTracked;
-import systems.project.models.Coordinates;
 import systems.project.exceptions.InvalidDataException;
+import systems.project.models.Coordinates;
 import systems.project.models.Event;
 import systems.project.models.Location;
 import systems.project.models.Person;
@@ -24,6 +24,7 @@ import systems.project.repositories.LocationRepository;
 import systems.project.repositories.PersonRepository;
 import systems.project.repositories.TicketRepository;
 import systems.project.repositories.VenueRepository;
+import systems.project.services.core.ValidateTypes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

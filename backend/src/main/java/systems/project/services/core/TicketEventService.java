@@ -1,5 +1,5 @@
 // TicketEventsService.java
-package systems.project.services;
+package systems.project.services.core;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;

@@ -14,10 +14,10 @@ import systems.project.repositories.LocationRepository;
 import systems.project.repositories.PersonRepository;
 import systems.project.repositories.TicketRepository;
 import systems.project.repositories.VenueRepository;
-import systems.project.services.PersonService;
-import systems.project.services.TicketCommandService;
-import systems.project.services.TicketService;
-import systems.project.services.ValidateTypes;
+import systems.project.services.command.TicketCommandService;
+import systems.project.services.core.TicketService;
+import systems.project.services.core.ValidateTypes;
+import systems.project.services.imports.TicketImportCoordinator;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -55,9 +55,7 @@ class TicketServiceTests {
     LocationRepository locationRepository;
 
     private TicketCommandService ticketCommandService;
-
-    @Mock
-    PersonService personService;
+    private TicketImportCoordinator ticketImportCoordinator;
 
     private TicketService ticketService;
     @BeforeEach
@@ -70,7 +68,8 @@ class TicketServiceTests {
                 venueRepository,
                 locationRepository
         );
-        ticketService = new TicketService(ticketCommandService);
+        ticketImportCoordinator = org.mockito.Mockito.mock(TicketImportCoordinator.class);
+        ticketService = new TicketService(ticketCommandService, ticketImportCoordinator);
     }
 
     @Test

@@ -1,10 +1,13 @@
-package systems.project.services;
+package systems.project.services.core;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import systems.project.exceptions.InvalidDataException;
 import systems.project.models.Ticket;
 import systems.project.models.api.ImportResult;
+import systems.project.services.command.TicketCommandService;
+import systems.project.services.imports.TicketImportCoordinator;
 
 import java.util.List;
 import java.util.Map;
@@ -16,9 +19,12 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 public class TicketService {
 
     private final TicketCommandService commands;
+    private final TicketImportCoordinator fileImportCoordinator;
 
-    public TicketService(TicketCommandService commands) {
+    public TicketService(TicketCommandService commands,
+                         TicketImportCoordinator fileImportCoordinator) {
         this.commands = commands;
+        this.fileImportCoordinator = fileImportCoordinator;
     }
 
     @Async
@@ -75,6 +81,15 @@ public class TicketService {
     public CompletableFuture<ImportResult> importTickets(List<Ticket> tickets) {
         try {
             return completedFuture(commands.importTickets(tickets));
+        } catch (InvalidDataException e) {
+            return CompletableFuture.failedFuture(e);
+        }
+    }
+
+    @Async
+    public CompletableFuture<ImportResult> importFromFile(MultipartFile file) {
+        try {
+            return completedFuture(fileImportCoordinator.importFromFile(file));
         } catch (InvalidDataException e) {
             return CompletableFuture.failedFuture(e);
         }

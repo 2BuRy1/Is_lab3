@@ -1,4 +1,4 @@
-package systems.project.services;
+package systems.project.services.command;
 
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PSQLException;

@@ -7,7 +7,7 @@ import systems.project.controllers.api.EventsApi;
 import systems.project.models.Event;
 import systems.project.models.api.AbstractResponse;
 import systems.project.models.envelopes.EventsEnvelope;
-import systems.project.services.EventService;
+import systems.project.services.core.EventService;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

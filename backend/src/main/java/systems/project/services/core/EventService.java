@@ -1,8 +1,9 @@
-package systems.project.services;
+package systems.project.services.core;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import systems.project.models.Event;
+import systems.project.services.command.EventCommandService;
 
 import java.util.List;
 import java.util.Map;
