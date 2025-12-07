@@ -91,3 +91,32 @@
     background: $color-bg-light-hover;
   }
 }
+
+.log-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid $color-border-light;
+    padding: 8px 10px;
+    text-align: left;
+  }
+
+  th {
+    background: $color-bg-light;
+    font-weight: 600;
+  }
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
