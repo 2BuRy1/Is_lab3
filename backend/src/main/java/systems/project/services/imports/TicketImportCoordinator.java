@@ -67,7 +67,9 @@ public class TicketImportCoordinator {
         try {
             ImportResult result = ticketCommandService.importTickets(tickets);
             logEntry.setImported(result.getImported());
-            List<Integer> ids = result.getTicketIds() == null ? new ArrayList<>() : new ArrayList<>(result.getTicketIds());
+            List<Integer> ids = result.getTicketIds() == null
+                    ? new ArrayList<>()
+                    : new ArrayList<>(result.getTicketIds());
             logEntry.setTicketIds(ids);
             logEntry.setStatus(ImportStatus.SUCCESS);
             logEntry.setCompletedAt(LocalDateTime.now());

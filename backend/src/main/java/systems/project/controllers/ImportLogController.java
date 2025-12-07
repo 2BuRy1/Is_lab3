@@ -69,7 +69,9 @@ public class ImportLogController {
         };
 
         String filename = entry.getFilename() == null ? "import.json" : entry.getFilename();
-        String contentType = entry.getContentType() == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE : entry.getContentType();
+        String contentType = entry.getContentType() == null
+                ? MediaType.APPLICATION_OCTET_STREAM_VALUE
+                : entry.getContentType();
 
         ResponseEntity.BodyBuilder builder = ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")

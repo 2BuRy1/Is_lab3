@@ -68,7 +68,7 @@ export default function ImportLogPage() {
   useEffect(() => {
     fetchLogs();
     fetchCacheLogging();
-  }, []);
+  });
 
   const updateCacheLogging = async (enabled) => {
     try {

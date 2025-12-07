@@ -31,7 +31,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TicketImportCoordinatorTest {
@@ -68,14 +72,17 @@ class TicketImportCoordinatorTest {
     }
 
     @Test
-    void importFromFile_commitsPreparedObjectOnSuccess() throws Exception {
-        byte[] bytes = "[{\"name\":\"A\",\"price\":1,\"number\":1,\"type\":\"VIP\",\"coordinates\":{\"x\":1,\"y\":1.0}}]".getBytes();
+    void importFromFileCommitsPreparedObjectOnSuccess() throws Exception {
+        String payload = "[{\"name\":\"A\",\"price\":1,\"number\":1,\"type\":\"VIP\"," +
+                "\"coordinates\":{\"x\":1,\"y\":1.0}}]";
+        byte[] bytes = payload.getBytes();
         when(multipartFile.getBytes()).thenReturn(bytes);
         when(multipartFile.getOriginalFilename()).thenReturn("tickets.json");
         when(multipartFile.getContentType()).thenReturn("application/json");
         List<Ticket> parsed = List.of(new Ticket());
         when(parser.parse(bytes)).thenReturn(parsed);
-        when(storageService.prepareUpload(eq("tickets.json"), eq(bytes), eq("application/json"))).thenReturn(preparedObject);
+        when(storageService.prepareUpload(eq("tickets.json"), eq(bytes), eq("application/json")))
+                .thenReturn(preparedObject);
         when(preparedObject.getFinalKey()).thenReturn("imports/2025/01/tickets.json");
         when(preparedObject.getContentType()).thenReturn("application/json");
         when(preparedObject.getSize()).thenReturn((long) bytes.length);
@@ -111,13 +118,14 @@ class TicketImportCoordinatorTest {
     }
 
     @Test
-    void importFromFile_rollsBackOnInvalidData() throws Exception {
+    void importFromFileRollsBackOnInvalidData() throws Exception {
         byte[] bytes = "[]".getBytes();
         when(multipartFile.getBytes()).thenReturn(bytes);
         when(multipartFile.getOriginalFilename()).thenReturn("broken.json");
         when(multipartFile.getContentType()).thenReturn("application/json");
         when(parser.parse(bytes)).thenReturn(Collections.singletonList(new Ticket()));
-        when(storageService.prepareUpload(eq("broken.json"), eq(bytes), eq("application/json"))).thenReturn(preparedObject);
+        when(storageService.prepareUpload(eq("broken.json"), eq(bytes), eq("application/json")))
+                .thenReturn(preparedObject);
         when(preparedObject.getFinalKey()).thenReturn("imports/tmp/broken.json");
         when(preparedObject.getContentType()).thenReturn("application/json");
         when(preparedObject.getSize()).thenReturn(0L);
@@ -138,13 +146,14 @@ class TicketImportCoordinatorTest {
     }
 
     @Test
-    void importFromFile_rollsBackOnRuntimeException() throws Exception {
+    void importFromFileRollsBackOnRuntimeException() throws Exception {
         byte[] bytes = "[]".getBytes();
         when(multipartFile.getBytes()).thenReturn(bytes);
         when(multipartFile.getOriginalFilename()).thenReturn("runtime.json");
         when(multipartFile.getContentType()).thenReturn("application/json");
         when(parser.parse(bytes)).thenReturn(Collections.singletonList(new Ticket()));
-        when(storageService.prepareUpload(eq("runtime.json"), eq(bytes), eq("application/json"))).thenReturn(preparedObject);
+        when(storageService.prepareUpload(eq("runtime.json"), eq(bytes), eq("application/json")))
+                .thenReturn(preparedObject);
         when(preparedObject.getFinalKey()).thenReturn("imports/tmp/runtime.json");
         when(preparedObject.getContentType()).thenReturn("application/json");
         when(preparedObject.getSize()).thenReturn(0L);
