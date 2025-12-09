@@ -1,4 +1,4 @@
-package systems.project.services;
+package systems.project.services.core;
 
 import org.springframework.stereotype.Service;
 import systems.project.models.Ticket;

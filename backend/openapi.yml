@@ -215,6 +215,34 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/ErrorResponse' }
 
+  /tickets/import/file:
+    post:
+      tags: [Tickets]
+      summary: Импортировать список билетов из JSON-файла
+      operationId: importTicketsFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [ file ]
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Импорт завершён (data = ImportResult)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ImportResponse' }
+        '400':
+          description: Ошибка импорта
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /min_event_ticket:
     get:
       tags: [Tickets]
@@ -388,6 +416,114 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/ErrorResponse' }
 
+  /import/logs:
+    get:
+      tags: [Import]
+      summary: Получить журнал импортов
+      operationId: listImportLogs
+      responses:
+        '200':
+          description: Список записей (data = ImportLogEntry[])
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AbstractResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/ImportLogEntry' }
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /import/logs/{id}:
+    get:
+      tags: [Import]
+      summary: Получить запись импорта
+      operationId: getImportLog
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, format: int64 }
+      responses:
+        '200':
+          description: Запись найдена (data = ImportLogEntry)
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/AbstractResponse'
+                  - type: object
+                    properties:
+                      data: { $ref: '#/components/schemas/ImportLogEntry' }
+        '404':
+          description: Не найдено
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /import/logs/{id}/file:
+    get:
+      tags: [Import]
+      summary: Скачать исходный файл импорта
+      operationId: downloadImportFile
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, format: int64 }
+      responses:
+        '200':
+          description: Бинарный поток
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Не найдено
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /cache/l2/logging:
+    get:
+      tags: [Cache]
+      summary: Получить состояние логирования L2 cache
+      operationId: getCacheLogging
+      responses:
+        '200':
+          description: Текущий статус
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled: { type: boolean }
+    post:
+      tags: [Cache]
+      summary: Включить/выключить логирование L2 cache
+      operationId: updateCacheLogging
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CacheLoggingRequest' }
+      responses:
+        '200':
+          description: Обновлённый статус
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled: { type: boolean }
+
 
 components:
   schemas:
@@ -512,6 +648,9 @@ components:
         ticketIds:
           type: array
           items: { type: integer, format: int32 }
+        logId: { type: integer, format: int64, nullable: true }
+        storageKey: { type: string, nullable: true }
+        filename: { type: string, nullable: true }
 
     ImportResponse:
       allOf:
@@ -551,3 +690,30 @@ components:
         venues:
           type: array
           items: { $ref: '#/components/schemas/Venue' }
+
+    ImportLogEntry:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        filename: { type: string, nullable: true }
+        storageKey: { type: string, nullable: true }
+        contentType: { type: string, nullable: true }
+        size: { type: integer, format: int64, nullable: true }
+        status:
+          type: string
+          enum: [ PENDING, SUCCESS, FAILED ]
+        requested: { type: integer, format: int32, nullable: true }
+        imported: { type: integer, format: int32, nullable: true }
+        errorMessage: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time, nullable: true }
+        completedAt: { type: string, format: date-time, nullable: true }
+        ticketIds:
+          type: array
+          items: { type: integer, format: int32 }
+        downloadPath: { type: string, nullable: true }
+
+    CacheLoggingRequest:
+      type: object
+      required: [ enabled ]
+      properties:
+        enabled: { type: boolean }

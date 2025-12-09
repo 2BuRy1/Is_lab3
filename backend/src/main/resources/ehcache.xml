@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xmlns:jsr107="http://www.ehcache.org/v3/jsr107">
+    <service>
+        <jsr107:defaults enable-management="true"
+                         enable-statistics="true"/>
+    </service>
+
+    <cache-template name="defaultEntityTemplate">
+        <expiry>
+            <ttl unit="minutes">30</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">2048</heap>
+            <offheap unit="MB">64</offheap>
+        </resources>
+    </cache-template>
+
+    <cache-template name="queryTemplate">
+        <expiry>
+            <ttl unit="minutes">5</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">512</heap>
+            <offheap unit="MB">16</offheap>
+        </resources>
+    </cache-template>
+
+    <cache alias="systems.project.models.Ticket" uses-template="defaultEntityTemplate"/>
+    <cache alias="systems.project.models.Event" uses-template="defaultEntityTemplate"/>
+    <cache alias="systems.project.models.Person" uses-template="defaultEntityTemplate"/>
+    <cache alias="systems.project.models.Venue" uses-template="defaultEntityTemplate"/>
+    <cache alias="systems.project.models.Location" uses-template="defaultEntityTemplate"/>
+    <cache alias="systems.project.models.Coordinates" uses-template="defaultEntityTemplate"/>
+
+    <cache alias="default-query-results-region" uses-template="queryTemplate"/>
+    <cache alias="default-update-timestamps-region" uses-template="queryTemplate"/>
+</config>

@@ -1,4 +1,4 @@
-package systems.project.services;
+package systems.project.services.command;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.dao.CannotSerializeTransactionException;
@@ -9,6 +9,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import systems.project.cache.CacheStatsTracked;
 import systems.project.models.Event;
 import systems.project.repositories.EventRepository;
 
@@ -26,6 +27,7 @@ public class EventCommandService {
         this.eventRepository = eventRepository;
     }
 
+    @CacheStatsTracked
     public Map<String, List<Event>> getEvents() {
         try {
             List<Event> events = eventRepository.findAllBy();

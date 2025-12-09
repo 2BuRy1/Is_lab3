@@ -15,4 +15,7 @@ public class ImportResult {
     private int requested;
     private int imported;
     private List<Integer> ticketIds;
+    private Long logId;
+    private String storageKey;
+    private String filename;
 }

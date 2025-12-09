@@ -2,9 +2,13 @@ package systems.project.controllers;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import systems.project.controllers.api.TicketsApi;
 import systems.project.models.Ticket;
@@ -13,8 +17,8 @@ import systems.project.models.api.CloneRequest;
 import systems.project.models.api.ImportResult;
 import systems.project.models.api.SellRequestDTO;
 import systems.project.models.envelopes.TicketsEnvelope;
-import systems.project.services.TicketEventService;
-import systems.project.services.TicketService;
+import systems.project.services.core.TicketEventService;
+import systems.project.services.core.TicketService;
 
 import java.util.List;
 import java.util.Optional;
@@ -280,6 +284,38 @@ public class TicketsApiController implements TicketsApi {
                             AbstractResponse.<ImportResult>builder()
                                     .status("error")
                                     .title("Ошибка импорта")
+                                    .message(message)
+                                    .data(null)
+                                    .build()
+                    );
+                });
+    }
+
+    @PostMapping(value = "/tickets/import/file",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompletableFuture<ResponseEntity<AbstractResponse<ImportResult>>> importTicketsFromFile(
+            @RequestPart("file") MultipartFile file) {
+        return ticketService.importFromFile(file)
+                .thenApply(result -> {
+                    events.publishChange("bulk-import", null);
+                    String message = String.format("Импорт завершён (log #%d)", result.getLogId());
+                    return ResponseEntity.ok(
+                            AbstractResponse.<ImportResult>builder()
+                                    .status("ok")
+                                    .title("Успех")
+                                    .message(message)
+                                    .data(result)
+                                    .build()
+                    );
+                })
+                .exceptionally(ex -> {
+                    Throwable cause = ex.getCause() != null ? ex.getCause() : ex;
+                    String message = cause.getMessage() != null ? cause.getMessage() : "Ошибка импорта";
+                    return ResponseEntity.badRequest().body(
+                            AbstractResponse.<ImportResult>builder()
+                                    .status("error")
+                                    .title("Ошибка импорта файла")
                                     .message(message)
                                     .data(null)
                                     .build()

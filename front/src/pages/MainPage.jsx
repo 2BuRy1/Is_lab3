@@ -50,12 +50,13 @@ export default function MainPage() {
     return fallback;
   };
 
-  const sendBulkImport = async (ticketsPayload) => {
+  const uploadImportFile = async (file) => {
     const base = (process.env.REACT_APP_API_BASE || 'http://localhost:8080').replace(/\/+$/, '');
-    const response = await fetch(`${base}/tickets/import`, {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch(`${base}/tickets/import/file`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(ticketsPayload),
+      body: formData,
     });
     const contentType = response.headers.get('content-type') || '';
     let body = null;
@@ -90,25 +91,11 @@ export default function MainPage() {
     setMsg({ ok: true, text: `Импорт из ${file.name}...` });
 
     try {
-      const text = await file.text();
-      let parsed;
-      try {
-        parsed = JSON.parse(text);
-      } catch (error) {
-        throw new Error('Файл не является корректным JSON');
-      }
-
-      const entries = parseTickets(parsed);
-      if (!entries.length) {
-        throw new Error('JSON не содержит массив ticket');
-      }
-
-      const responsePayload = await sendBulkImport(entries);
-      const successMessage = extractMessage(
-        responsePayload,
-        `Отправлено ${entries.length} билет(ов)`
-      );
-      setMsg({ ok: true, text: successMessage || `Отправлено ${entries.length} билет(ов)` });
+      const responsePayload = await uploadImportFile(file);
+      const logId = responsePayload?.data?.logId;
+      const fallback = logId ? `Импорт завершён (лог #${logId})` : `Файл ${file.name} отправлен`;
+      const successMessage = extractMessage(responsePayload, fallback);
+      setMsg({ ok: true, text: successMessage || fallback });
       bump();
     } catch (error) {
       setMsg({ ok: false, text: error.message || 'Ошибка импорта' });
@@ -245,6 +232,9 @@ export default function MainPage() {
 
         <button className="btn" onClick={triggerImportDialog} disabled={busy}>
           Импорт JSON
+        </button>
+        <button className="btn" onClick={() => navigate('/import/logs')} disabled={busy}>
+          Журнал импорта
         </button>
         <input
           ref={fileInputRef}

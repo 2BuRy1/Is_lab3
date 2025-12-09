@@ -64,8 +64,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.retry:spring-retry'
+    implementation 'org.hibernate.orm:hibernate-jcache'
+    implementation 'org.ehcache:ehcache:3.10.8'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.7'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
     testImplementation("org.mockito:mockito-core:5.19.0")
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
     testImplementation platform("org.junit:junit-bom:5.11.3")
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
@@ -74,6 +80,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.7")
     implementation("io.swagger.core.v3:swagger-annotations:2.2.37")
     implementation("org.openapitools:jackson-databind-nullable:0.2.7")
+    implementation 'io.minio:minio:8.5.10'
     annotationProcessor 'org.projectlombok:lombok'
     implementation("com.puppycrawl.tools:checkstyle:11.0.1")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -2,9 +2,47 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+    open-in-view: false
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_query_cache: true
+      hibernate.cache.region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+      hibernate.generate_statistics: true
+      'jakarta.persistence.sharedCache.mode': ENABLE_SELECTIVE
+      'hibernate.javax.cache.provider': org.ehcache.jsr107.EhcacheCachingProvider
+      'hibernate.javax.cache.uri': classpath:ehcache.xml
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:}
     name: ${DB_NAME:postgres}
+    hikari:
+      pool-name: TicketsHikariPool
+      maximum-pool-size: ${DB_POOL_MAX:20}
+      minimum-idle: ${DB_POOL_MIN_IDLE:5}
+      idle-timeout: ${DB_POOL_IDLE_TIMEOUT:60000}
+      max-lifetime: ${DB_POOL_MAX_LIFETIME:1800000}
+      connection-timeout: ${DB_POOL_CONNECTION_TIMEOUT:30000}
+      validation-timeout: ${DB_POOL_VALIDATION_TIMEOUT:5000}
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+  servlet:
+    multipart:
+      max-file-size: 16MB
+      max-request-size: 16MB
+
+app:
+  cache:
+    logging-enabled: false
+  storage:
+    minio:
+      endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+      bucket: ${MINIO_BUCKET:ticket-imports}
+      access-key: ${MINIO_ACCESS_KEY:minioadmin}
+      secret-key: ${MINIO_SECRET_KEY:minioadmin}
+      region: ${MINIO_REGION:}
+      secure: ${MINIO_SECURE:false}
+      folder: ${MINIO_FOLDER:imports}

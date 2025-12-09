@@ -4,6 +4,7 @@ import MainPage from './pages/MainPage';
 import CreateTicketPage from './pages/CreateTicketPage';
 import EditTicketPage from './components/EditTicketPage';
 import FunctionsPanel from './components/FunctionsPanel';
+import ImportLogPage from './pages/ImportLogPage';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
       <Route path="/tickets/new" element={<CreateTicketPage />} />
       <Route path="/tickets/:id/edit" element={<EditTicketPage />} />
       <Route path="/functions" element={<FunctionsPanel />} />
+      <Route path="/import/logs" element={<ImportLogPage />} />
     </Routes>
   );
 }

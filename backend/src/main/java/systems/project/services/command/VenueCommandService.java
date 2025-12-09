@@ -1,4 +1,4 @@
-package systems.project.services;
+package systems.project.services.command;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.dao.CannotSerializeTransactionException;
@@ -9,6 +9,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import systems.project.cache.CacheStatsTracked;
 import systems.project.models.Venue;
 import systems.project.repositories.VenueRepository;
 
@@ -26,6 +27,7 @@ public class VenueCommandService {
         this.venueRepository = venueRepository;
     }
 
+    @CacheStatsTracked
     public Map<String, List<Venue>> getVenues() {
         try {
             List<Venue> venues = venueRepository.findAllBy();

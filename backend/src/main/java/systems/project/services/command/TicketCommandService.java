@@ -1,4 +1,4 @@
-package systems.project.services;
+package systems.project.services.command;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.dao.CannotSerializeTransactionException;
@@ -9,8 +9,9 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import systems.project.models.Coordinates;
+import systems.project.cache.CacheStatsTracked;
 import systems.project.exceptions.InvalidDataException;
+import systems.project.models.Coordinates;
 import systems.project.models.Event;
 import systems.project.models.Location;
 import systems.project.models.Person;
@@ -23,6 +24,7 @@ import systems.project.repositories.LocationRepository;
 import systems.project.repositories.PersonRepository;
 import systems.project.repositories.TicketRepository;
 import systems.project.repositories.VenueRepository;
+import systems.project.services.core.ValidateTypes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class TicketCommandService {
         this.locationRepository = locationRepository;
     }
 
+    @CacheStatsTracked
     public Map<String, List<Ticket>> getTickets() {
         try {
             List<Ticket> list = ticketRepository.findAllBy();
@@ -89,6 +92,7 @@ public class TicketCommandService {
         }
     }
 
+    @CacheStatsTracked
     public Ticket getTicket(Integer id) {
         try {
             return ticketRepository.findById(id).orElse(null);
@@ -153,6 +157,7 @@ public class TicketCommandService {
         }
     }
 
+    @CacheStatsTracked
     public Ticket getWithMinEvent() {
         try {
             Optional<Ticket> res = ticketRepository.findFirstByEventIsNotNullOrderByEventIdAsc();
@@ -162,6 +167,7 @@ public class TicketCommandService {
         }
     }
 
+    @CacheStatsTracked
     public Map<String, Long> countByCommentLess(String comment) {
         try {
             Long value = ticketRepository.countByCommentLessThan(comment);
@@ -242,6 +248,7 @@ public class TicketCommandService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @CacheStatsTracked
     public ImportResult importTickets(List<Ticket> tickets) throws InvalidDataException {
         if (tickets == null || tickets.isEmpty()) {
             throw new InvalidDataException("Список ticket пуст");
